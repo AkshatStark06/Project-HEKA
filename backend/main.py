@@ -4,6 +4,7 @@ from services.data_loader import DataLoader
 from services.patient_processor import PatientProcessor
 from services.progression_engine import analyze_progression
 from services.risk_engine import analyze_risk
+from services.cohort_engine import build_cohorts
 
 app = FastAPI(
     title="HEKA Backend",
@@ -74,9 +75,15 @@ def progression_test():
         processed_patient,
         progression
     )
-
+    cohorts = build_cohorts(
+        processed_patient,
+        progression,
+        risk
+    )
+    
     return {
         "patient": processed_patient,
         "progression": progression,
-        "risk": risk
+        "risk": risk,
+        "cohorts": cohorts
     }
