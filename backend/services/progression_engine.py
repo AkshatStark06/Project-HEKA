@@ -433,5 +433,13 @@ def analyze_progression(patient):
 
         "supporting_evidence": [],
 
-        "traceability": {}
+        "traceability": {
+            "detected_trends": detected_trends,
+
+            "clinical_flags": clinical_flags,
+
+            "care_gaps": care_gaps,
+
+            "procedure_delays": procedure_delays
+        }
     }

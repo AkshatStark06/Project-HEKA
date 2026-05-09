@@ -4,7 +4,7 @@ from typing import Dict, List
 def build_cohorts(
     patient: Dict,
     progression_data: Dict,
-    risk_data: Dict
+    risk_data: Dict,
 ) -> Dict:
 
     cohorts = []
@@ -107,8 +107,13 @@ def build_cohorts(
     return {
         "patient_id": patient.get("patient_id"),
         "cohorts": cohorts,
-        "traceability": progression_data.get(
-            "traceability",
-            {}
-        )
+        "traceability": {
+            "risk_level": risk_level,
+
+            "clinical_flags": clinical_flags,
+
+            "care_gaps": care_gaps,
+
+            "procedure_delays": procedure_delays
+        }
     }
