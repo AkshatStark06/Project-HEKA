@@ -5,6 +5,7 @@ from services.patient_processor import PatientProcessor
 from services.progression_engine import analyze_progression
 from services.risk_engine import analyze_risk
 from services.cohort_engine import build_cohorts
+from services.variance_engine import analyze_variance
 
 app = FastAPI(
     title="HEKA Backend",
@@ -80,10 +81,17 @@ def progression_test():
         progression,
         risk
     )
+    variance = analyze_variance(
+        processed_patient,
+        progression,
+        risk,
+        cohorts
+    )
     
     return {
         "patient": processed_patient,
         "progression": progression,
         "risk": risk,
-        "cohorts": cohorts
+        "cohorts": cohorts,
+        "variance": variance
     }
