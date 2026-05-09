@@ -9,6 +9,11 @@ from services.variance_engine import analyze_variance
 from services.conversion_engine import analyze_conversion
 from services.llm_layer import generate_llm_insights
 
+from services.traceability_engine import (
+    build_evidence,
+    build_finding
+)
+
 app = FastAPI(
     title="HEKA Backend",
     version="1.0.0"
@@ -104,6 +109,22 @@ def progression_test():
         variance,
         conversion
     )
+    sample_evidence = build_evidence(
+        source_type="lab",
+        field="hba1c",
+        value=9.4,
+        source_id="VISIT-001",
+        visit_date="2026-04-20",
+        reference_path="visits[0].labs.hba1c"
+    )
+
+    sample_finding = build_finding(
+        finding="Uncontrolled diabetes",
+        evidence=[sample_evidence],
+        severity="high"
+    )
+
+    print(sample_finding)
     
     return {
         "patient": processed_patient,

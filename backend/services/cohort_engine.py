@@ -107,13 +107,4 @@ def build_cohorts(
     return {
         "patient_id": patient.get("patient_id"),
         "cohorts": cohorts,
-        "traceability": {
-            "risk_level": risk_level,
-
-            "clinical_flags": clinical_flags,
-
-            "care_gaps": care_gaps,
-
-            "procedure_delays": procedure_delays
-        }
     }

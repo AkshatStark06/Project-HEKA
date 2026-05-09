@@ -63,7 +63,7 @@ def generate_llm_insights(
     # -----------------------------
 
     coordinator_summary_parts.append(
-        f'Conversion status: {conversion_data["conversion_status"]}.'
+        f'Conversion status: {conversion_data["conversion_status"]}'
     )
 
     if conversion_data["conversion_barriers"]:
@@ -133,19 +133,11 @@ def generate_llm_insights(
         "evidence_used": evidence_used,
 
         "traceability": {
-            "progression_engine":
-                progression_data.get("traceability", {}),
-
-            "risk_engine":
-                risk_data.get("traceability", {}),
-
-            "cohort_engine":
-                cohort_data.get("traceability", {}),
-
-            "variance_engine":
-                variance_data.get("traceability", {}),
-
-            "conversion_engine":
-                conversion_data.get("traceability", {})
+            "evidence_sources": [
+                "progression_engine",
+                "risk_engine",
+                "conversion_engine"
+            ]
         }
+
     }

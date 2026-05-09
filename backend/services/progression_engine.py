@@ -1,4 +1,8 @@
 from datetime import datetime
+from services.traceability_engine import (
+    build_evidence,
+    build_finding
+)
 
 
 def extract_hba1c_trend(patient):
@@ -73,19 +77,31 @@ def detect_unresolved_conditions(patient):
     # Uncontrolled diabetes
     if latest_hba1c and latest_hba1c >= 7:
 
-        flags.append({
-            "condition": "uncontrolled_diabetes",
+        flags.append(
+            build_finding(
+                finding="Diabetes remains uncontrolled",
 
-            "finding": "Diabetes remains uncontrolled",
+                finding_type="uncontrolled_diabetes",
 
-            "evidence": [
-                f"Latest HbA1c: {latest_hba1c}"
-            ],
+                severity="moderate",
 
-            "traceability": {
-                "latest_hba1c": latest_hba1c
-            }
-        })
+                evidence=[
+                    build_evidence(
+                        source_type="lab",
+
+                        field="hba1c",
+
+                        value=latest_hba1c,
+
+                        visit_date=patient.get(
+                            "latest_visit", {}
+                        ).get("visit_date"),
+
+                        reference_path="latest_visit.labs.hba1c"
+                    )
+                ]
+            )
+        )
 
     # Persistent hypertension
     if latest_bp:
@@ -96,38 +112,62 @@ def detect_unresolved_conditions(patient):
 
         if systolic >= 140 or diastolic >= 90:
 
-            flags.append({
-                "condition": "persistent_hypertension",
+            flags.append(
+                build_finding(
+                    finding="Blood pressure remains elevated",
 
-                "finding": "Blood pressure remains elevated",
+                    finding_type="persistent_hypertension",
 
-                "evidence": [
-                    f"Latest BP: {latest_bp}"
-                ],
+                    severity="moderate",
 
-                "traceability": {
-                    "latest_bp": latest_bp
-                }
-            })
+                    evidence=[
+                        build_evidence(
+                            source_type="vitals",
+
+                            field="bp",
+
+                            value=latest_bp,
+
+                            visit_date=patient.get(
+                                "latest_visit", {}
+                            ).get("visit_date"),
+
+                            reference_path="latest_visit.vitals.bp"
+                        )
+                    ]
+                )
+            )
 
     # Persistent angina / cardiac issue
     if "angina" in latest_diagnosis:
 
-        flags.append({
-            "condition": "ongoing_cardiac_condition",
+        flags.append(
+            build_finding(
+                finding="Cardiac condition remains active",
 
-            "finding": "Cardiac condition remains active",
+                finding_type="ongoing_cardiac_condition",
 
-            "evidence": [
-                current_status.get("latest_diagnosis")
-            ],
+                severity="high",
 
-            "traceability": {
-                "diagnosis": current_status.get(
-                    "latest_diagnosis"
-                )
-            }
-        })
+                evidence=[
+                    build_evidence(
+                        source_type="diagnosis",
+
+                        field="latest_diagnosis",
+
+                        value=current_status.get(
+                            "latest_diagnosis"
+                        ),
+
+                        visit_date=patient.get(
+                            "latest_visit", {}
+                        ).get("visit_date"),
+
+                        reference_path="current_status.latest_diagnosis"
+                    )
+                ]
+            )
+        )
 
     return flags
 
@@ -433,13 +473,4 @@ def analyze_progression(patient):
 
         "supporting_evidence": [],
 
-        "traceability": {
-            "detected_trends": detected_trends,
-
-            "clinical_flags": clinical_flags,
-
-            "care_gaps": care_gaps,
-
-            "procedure_delays": procedure_delays
-        }
     }

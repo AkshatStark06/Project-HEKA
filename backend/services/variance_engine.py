@@ -18,7 +18,7 @@ def analyze_variance(
 
     supporting_evidence = []
 
-    traceability = patient.get("traceability", {})
+    # traceability = patient.get("traceability", {})
 
     escalation_needed = False
 
@@ -70,7 +70,7 @@ def analyze_variance(
 
     for flag in clinical_flags:
 
-        condition = flag.get("condition", "")
+        condition = flag.get("finding_type", "")
 
         if condition == "uncontrolled_diabetes":
 
@@ -194,5 +194,4 @@ def analyze_variance(
 
         "supporting_evidence": supporting_evidence,
 
-        "traceability": traceability
     }

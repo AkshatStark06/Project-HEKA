@@ -9,7 +9,6 @@ def analyze_risk(patient: Dict, progression_data: Dict) -> Dict:
 
     supporting_evidence = []
 
-    traceability = {}
 
     # scoring logic here
     latest_visit = patient.get("latest_visit", {})
@@ -93,11 +92,6 @@ def analyze_risk(patient: Dict, progression_data: Dict) -> Dict:
             "Recommended procedure still pending"
         )
 
-    traceability = {
-        "clinical_flags": clinical_flags,
-        "care_gaps": care_gaps,
-        "procedure_delays": procedure_delays
-    }
 
     risk_level = determine_risk_level(
         risk_score
@@ -122,7 +116,6 @@ def analyze_risk(patient: Dict, progression_data: Dict) -> Dict:
 
         "supporting_evidence": supporting_evidence,
 
-        "traceability": traceability
     }
 
 def determine_risk_level(score: int) -> str:

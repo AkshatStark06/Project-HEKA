@@ -216,25 +216,12 @@ def analyze_conversion(
     )
 
     traceability = {
-        "progression_engine": progression.get(
-            "traceability",
-            {}
-        ),
-
-        "risk_engine": risk.get(
-            "traceability",
-            {}
-        ),
-
-        "cohort_engine": cohort_data.get(
-            "traceability",
-            {}
-        ),
-
-        "variance_engine": variance.get(
-            "traceability",
-            {}
-        )
+        "source_findings": [
+            "pending_procedure",
+            "financial_constraint",
+            "insurance_clearance_pending",
+            "external_treatment_preference"
+        ]
     }
 
     return {
@@ -256,5 +243,4 @@ def analyze_conversion(
 
         "supporting_evidence": supporting_evidence,
 
-        "traceability": traceability
     }
