@@ -7,6 +7,7 @@ from services.risk_engine import analyze_risk
 from services.cohort_engine import build_cohorts
 from services.variance_engine import analyze_variance
 from services.conversion_engine import analyze_conversion
+from services.llm_layer import generate_llm_insights
 
 app = FastAPI(
     title="HEKA Backend",
@@ -95,6 +96,14 @@ def progression_test():
         cohorts,
         variance
     )
+    llm_insights = generate_llm_insights(
+        processed_patient,
+        progression,
+        risk,
+        cohorts,
+        variance,
+        conversion
+    )
     
     return {
         "patient": processed_patient,
@@ -102,5 +111,6 @@ def progression_test():
         "risk": risk,
         "cohorts": cohorts,
         "variance": variance,
-        "conversion": conversion
+        "conversion": conversion,
+        "llm_insights": llm_insights
     }
