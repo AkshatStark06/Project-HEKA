@@ -1,6 +1,13 @@
 from datetime import datetime
 from typing import Dict, Any, List
 
+from services.progression_engine import analyze_progression
+from services.risk_engine import analyze_risk
+from services.cohort_engine import build_cohorts
+from services.variance_engine import analyze_variance
+from services.conversion_engine import analyze_conversion
+from services.llm_layer import generate_llm_insights
+
 
 class PatientProcessor:
 
@@ -67,6 +74,69 @@ class PatientProcessor:
                 "source_index": patient.get("_source_index")
             }
         }
+
+        progression_analysis = analyze_progression(
+            normalized_patient
+        )
+
+        risk_analysis = analyze_risk(
+            normalized_patient,
+            progression_analysis
+        )
+
+        cohort_analysis = build_cohorts(
+            normalized_patient,
+            progression_analysis,
+            risk_analysis
+        )
+
+        variance_analysis = analyze_variance(
+            normalized_patient,
+            progression_analysis,
+            risk_analysis,
+            cohort_analysis
+        )
+
+        conversion_analysis = analyze_conversion(
+            normalized_patient,
+            progression_analysis,
+            risk_analysis,
+            cohort_analysis,
+            variance_analysis
+        )
+
+        llm_insights = generate_llm_insights(
+            normalized_patient,
+            progression_analysis,
+            risk_analysis,
+            cohort_analysis,
+            variance_analysis,
+            conversion_analysis
+        )
+
+        normalized_patient["progression_analysis"] = (
+            progression_analysis
+        )
+
+        normalized_patient["risk_analysis"] = (
+            risk_analysis
+        )
+
+        normalized_patient["cohort_analysis"] = (
+            cohort_analysis
+        )
+
+        normalized_patient["variance_analysis"] = (
+            variance_analysis
+        )
+
+        normalized_patient["conversion_analysis"] = (
+            conversion_analysis
+        )
+
+        normalized_patient["llm_insights"] = (
+            llm_insights
+        )
 
         return normalized_patient
 

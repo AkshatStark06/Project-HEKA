@@ -9,9 +9,26 @@ from services.variance_engine import analyze_variance
 from services.conversion_engine import analyze_conversion
 from services.llm_layer import generate_llm_insights
 
+from routes.patients import router as patient_router
+
+
 from services.traceability_engine import (
     build_evidence,
     build_finding
+)
+
+from routes.risk import router as risk_router
+
+from routes.conversion import (
+    router as conversion_router
+)
+
+from routes.cohorts import (
+    router as cohort_router
+)
+
+from routes.dashboard import (
+    router as dashboard_router
 )
 
 app = FastAPI(
@@ -27,6 +44,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(patient_router)
+app.include_router(risk_router)
+app.include_router(conversion_router)
+app.include_router(cohort_router)
+app.include_router(dashboard_router)
+
 
 @app.get("/")
 def root():
