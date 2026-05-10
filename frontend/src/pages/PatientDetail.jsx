@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import SectionCard from "../components/dashboard/SectionCard"
+import EvidenceCard from "../components/dashboard/EvidenceCard"
+
 import hekaApi from "../api/hekaApi";
 
 function PatientDetail() {
@@ -40,11 +43,16 @@ function PatientDetail() {
 
       <div className="bg-white rounded-xl shadow-md p-6">
         <h1 className="text-4xl font-bold text-gray-800">
-          {patient.name}
+          {patient.demographics?.name}
         </h1>
 
         <p className="text-gray-500 mt-2">
           Patient ID: {patient.patient_id}
+        </p>
+        
+        <p className="text-gray-500">
+          {patient.demographics?.age} years •{" "}
+          {patient.demographics?.gender}
         </p>
 
         <div className="mt-4">
@@ -70,18 +78,27 @@ function PatientDetail() {
             AI Clinical Summary
         </h2>
 
-        <div className="space-y-3">
+        <div className="space-y-4">
 
-            {patient.llm_insights?.summary?.map(
-            (insight, index) => (
-                <div
-                key={index}
-                className="border-l-4 border-blue-500 pl-4 py-2 bg-blue-50"
-                >
-                {insight}
-                </div>
-            )
-            )}
+          <div className="border-l-4 border-blue-500 pl-4 py-2 bg-blue-50">
+            <h3 className="font-semibold mb-1">
+              Doctor Summary
+            </h3>
+
+            <p>
+              {patient.llm_insights?.doctor_summary}
+            </p>
+          </div>
+
+          <div className="border-l-4 border-green-500 pl-4 py-2 bg-green-50">
+            <h3 className="font-semibold mb-1">
+              Coordinator Summary
+            </h3>
+
+            <p>
+              {patient.llm_insights?.coordinator_summary}
+            </p>
+          </div>
 
         </div>
         </div>
@@ -169,6 +186,63 @@ function PatientDetail() {
           )}
         </div>
       </div>
+
+      {/* CLINICAL EXPLAINABILITY */}
+
+      <SectionCard title="Clinical Explainability">
+
+        <div className="mb-6">
+
+          <h3 className="text-lg font-semibold mb-3">
+            Clinical Flags
+          </h3>
+
+          {patient.progression_analysis?.clinical_flags?.map(
+            (flag, index) => (
+              <EvidenceCard
+                key={index}
+                item={flag}
+              />
+            )
+          )}
+
+        </div>
+
+        <div className="mb-6">
+
+          <h3 className="text-lg font-semibold mb-3">
+            Care Gaps
+          </h3>
+
+          {patient.progression_analysis?.care_gaps?.map(
+            (gap, index) => (
+              <EvidenceCard
+                key={index}
+                item={gap}
+              />
+            )
+          )}
+
+        </div>
+
+        <div className="mb-6">
+
+          <h3 className="text-lg font-semibold mb-3">
+            Procedure Delays
+          </h3>
+
+          {patient.progression_analysis?.procedure_delays?.map(
+            (delay, index) => (
+              <EvidenceCard
+                key={index}
+                item={delay}
+              />
+            )
+          )}
+
+        </div>
+
+      </SectionCard>
 
     </div>
   );
