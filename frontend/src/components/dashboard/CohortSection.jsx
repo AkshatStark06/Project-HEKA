@@ -16,6 +16,7 @@ export default function CohortSection({
             title={cohort.title}
             count={cohort.count}
             description={cohort.description}
+            cohortKey={cohort.cohortKey}
           />
         ))}
       </div>

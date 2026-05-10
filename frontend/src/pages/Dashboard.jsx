@@ -8,6 +8,8 @@ import KPICard from "../components/dashboard/KPICard";
 import RiskQueueCard from "../components/dashboard/RiskQueueCard";
 import CohortSection from "../components/dashboard/CohortSection";
 
+import cohortConfig from "../utils/cohortConfig";
+
 
 function Dashboard() {
   const [summary, setSummary] = useState(null);
@@ -16,6 +18,8 @@ function Dashboard() {
 
   const [conversionRiskPatients, setConversionRiskPatients] =
     useState([]);
+
+  const [cohortData, setCohortData] = useState([]);
 
   const fetchDashboardSummary = async () => {
     try {
@@ -52,34 +56,35 @@ function Dashboard() {
     fetchDashboardSummary();
 
     fetchOperationalData();
+    fetchCohortData();
   }, []);
 
-  const cohortData = [
-    {
-      title: "High Risk",
-      count: highRiskPatients.length,
-      description:
-        "Patients requiring urgent clinical prioritization.",
-    },
-    {
-      title: "Conversion Risk",
-      count: conversionRiskPatients.length,
-      description:
-        "Patients likely to delay or decline procedures.",
-    },
-    {
-      title: "Lost Follow-up",
-      count: 4,
-      description:
-        "Patients disconnected from care coordination workflow.",
-    },
-    {
-      title: "Chronic Progression",
-      count: 6,
-      description:
-        "Patients showing longitudinal disease progression.",
-    },
-  ];
+  const fetchCohortData = async () => {
+    try {
+
+      const cohortResponses = await Promise.all(
+        cohortConfig.map(async (cohort) => {
+
+          const response = await hekaApi.get(
+            `/cohort/${cohort.cohortKey}`
+          );
+
+          return {
+            ...cohort,
+            count: response.data.length,
+          };
+        })
+      );
+
+      setCohortData(cohortResponses);
+
+    } catch (error) {
+      console.error(
+        "Failed to fetch cohort intelligence",
+        error
+      );
+    }
+  };
 
   if (!summary) {
     return (

@@ -6,6 +6,8 @@ import EvidenceCard from "../components/dashboard/EvidenceCard"
 
 import TimelineContainer from "../components/timeline/TimelineContainer";
 
+import EscalationBanner from "../components/dashboard/EscalationBanner";
+
 import hekaApi from "../api/hekaApi";
 
 function PatientDetail() {
@@ -27,6 +29,18 @@ function PatientDetail() {
   useEffect(() => {
     fetchPatient();
   }, [id]);
+
+  const hasConversionBarriers =
+    patient?.conversion_analysis?.conversion_barriers
+      ?.length > 0;
+
+  const hasProcedureDelays =
+    patient?.progression_analysis?.procedure_delays
+      ?.length > 0;
+
+  const hasCareGaps =
+    patient?.progression_analysis?.care_gaps
+      ?.length > 0;
 
   if (!patient) {
     return (
@@ -72,6 +86,30 @@ function PatientDetail() {
           </span>
         </div>
       </div>
+
+      {hasConversionBarriers && (
+        <EscalationBanner
+          title="Conversion Risk Detected"
+          description="Operational intelligence detected barriers affecting procedure conversion."
+          level="high"
+        />
+      )}
+
+      {hasCareGaps && (
+        <EscalationBanner
+          title="Care Gap Escalation"
+          description="Clinical workflow gaps detected requiring follow-up attention."
+          level="critical"
+        />
+      )}
+
+      {hasProcedureDelays && (
+        <EscalationBanner
+          title="Procedure Delay Detected"
+          description="Delayed progression detected in procedural care pathway."
+          level="moderate"
+        />
+      )}
 
       {/* LLM INSIGHTS */}
 

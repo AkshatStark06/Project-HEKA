@@ -47,6 +47,28 @@ def get_patients_by_cohort(
                     .get("risk_analysis", {})
                     .get("risk_level"),
 
+                "risk_score": processed_patient
+                    .get("risk_analysis", {})
+                    .get("risk_score"),
+
+                "risk_category": processed_patient
+                    .get("risk_analysis", {})
+                    .get("risk_level"),
+
+                "conversion_risk":
+                    "conversion_risk" in cohorts,
+
+                "lost_followup_risk":
+                    "lost_followup" in cohorts,
+
+                "delayed_procedure":
+                    "procedure_pending" in cohorts,
+
+                "priority_reason":
+                    processed_patient
+                    .get("llm_insights", {})
+                    .get("doctor_summary"),
+
                 "cohorts": cohorts,
 
                 "conversion_status": processed_patient

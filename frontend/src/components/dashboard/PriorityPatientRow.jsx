@@ -1,6 +1,37 @@
 import { Link } from "react-router-dom";
+import PriorityReasonTag from "./PriorityReasonTag";
 
 export default function PriorityPatientRow({ patient }) {
+
+    const reasonTags = [];
+
+    if (patient.conversion_risk) {
+        reasonTags.push({
+        label: "Conversion Risk",
+        type: "warning",
+        });
+    }
+
+    if (patient.lost_followup_risk) {
+        reasonTags.push({
+        label: "Lost Follow-Up",
+        type: "danger",
+        });
+    }
+
+    if (patient.delayed_procedure) {
+        reasonTags.push({
+        label: "Delayed Procedure",
+        type: "warning",
+        });
+    }
+
+    if (patient.high_risk_trend) {
+        reasonTags.push({
+        label: "High-Risk Trend",
+        type: "danger",
+        });
+    }
   return (
     <Link
       to={`/patients/${patient.patient_id}`}
@@ -15,6 +46,21 @@ export default function PriorityPatientRow({ patient }) {
           <p className="text-sm text-slate-500">
             ID: {patient.patient_id}
           </p>
+          {patient.priority_reason && (
+            <p className="text-sm text-slate-600 mt-2">
+                {patient.priority_reason}
+            </p>
+            )}
+
+            <div className="flex flex-wrap gap-2 mt-3">
+                {reasonTags.map((tag, index) => (
+                <PriorityReasonTag
+                    key={index}
+                    label={tag.label}
+                    type={tag.type}
+                />
+                ))}
+            </div>
         </div>
 
         <div className="text-right">
