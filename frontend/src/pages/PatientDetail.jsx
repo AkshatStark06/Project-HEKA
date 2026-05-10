@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import SectionCard from "../components/dashboard/SectionCard"
 import EvidenceCard from "../components/dashboard/EvidenceCard"
 
+import TimelineContainer from "../components/timeline/TimelineContainer";
+
 import hekaApi from "../api/hekaApi";
 
 function PatientDetail() {
@@ -243,6 +245,14 @@ function PatientDetail() {
         </div>
 
       </SectionCard>
+
+      <div className="mt-6">
+        <h2 className="text-xl font-bold mb-4">
+          Timeline Intelligence
+        </h2>
+
+        <TimelineContainer timeline={patient.timeline} />
+      </div>
 
     </div>
   );
