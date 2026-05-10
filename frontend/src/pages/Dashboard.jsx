@@ -5,9 +5,17 @@ import hekaApi from "../api/hekaApi";
 
 import KPICard from "../components/dashboard/KPICard";
 
+import RiskQueueCard from "../components/dashboard/RiskQueueCard";
+import CohortSection from "../components/dashboard/CohortSection";
+
 
 function Dashboard() {
   const [summary, setSummary] = useState(null);
+
+  const [highRiskPatients, setHighRiskPatients] = useState([]);
+
+  const [conversionRiskPatients, setConversionRiskPatients] =
+    useState([]);
 
   const fetchDashboardSummary = async () => {
     try {
@@ -19,9 +27,59 @@ function Dashboard() {
     }
   };
 
+  const fetchOperationalData = async () => {
+    try {
+      const highRiskResponse =
+        await hekaApi.get("/high-risk-patients");
+
+      const conversionRiskResponse =
+        await hekaApi.get("/conversion-risk");
+
+      setHighRiskPatients(highRiskResponse.data);
+
+      setConversionRiskPatients(
+        conversionRiskResponse.data
+      );
+    } catch (error) {
+      console.error(
+        "Failed to fetch operational intelligence",
+        error
+      );
+    }
+  };
+
   useEffect(() => {
     fetchDashboardSummary();
+
+    fetchOperationalData();
   }, []);
+
+  const cohortData = [
+    {
+      title: "High Risk",
+      count: highRiskPatients.length,
+      description:
+        "Patients requiring urgent clinical prioritization.",
+    },
+    {
+      title: "Conversion Risk",
+      count: conversionRiskPatients.length,
+      description:
+        "Patients likely to delay or decline procedures.",
+    },
+    {
+      title: "Lost Follow-up",
+      count: 4,
+      description:
+        "Patients disconnected from care coordination workflow.",
+    },
+    {
+      title: "Chronic Progression",
+      count: 6,
+      description:
+        "Patients showing longitudinal disease progression.",
+    },
+  ];
 
   if (!summary) {
     return (
@@ -87,6 +145,20 @@ function Dashboard() {
           value={summary.lost_followup_patients}
         />
       </div>
+
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <RiskQueueCard
+          title="High-Risk Patient Queue"
+          patients={highRiskPatients}
+        />
+
+        <RiskQueueCard
+          title="Conversion-Risk Queue"
+          patients={conversionRiskPatients}
+        />
+      </div>
+
+      <CohortSection cohorts={cohortData} />
     </div>
   );
 }
