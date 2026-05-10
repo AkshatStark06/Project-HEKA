@@ -12,7 +12,7 @@ import cohortConfig from "../utils/cohortConfig";
 
 import RiskDistributionChart from "../components/dashboard/RiskDistributionChart";
 import CohortBarChart from "../components/dashboard/CohortBarChart";
-
+import RiskScoreDistributionChart from "../components/dashboard/RiskScoreDistributionChart";
 
 function Dashboard() {
   const [summary, setSummary] = useState(null);
@@ -216,6 +216,12 @@ function Dashboard() {
 
           <RiskDistributionChart summary={summary} />
           <CohortBarChart cohorts={cohortData} />
+          <RiskScoreDistributionChart
+            patients={[
+              ...highRiskPatients,
+              ...conversionRiskPatients,
+            ]}
+          />
           <CohortSection cohorts={cohortData} />
         </div>
       </div>

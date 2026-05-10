@@ -169,190 +169,206 @@ function PatientDetail() {
 
       {/* LLM INSIGHTS */}
 
-      <div className="
-          bg-slate-900/90
-            border border-slate-800
-            rounded-2xl
-            p-6
-            shadow-xl shadow-black/20
-            "
-      >
-        <h2 className="text-2xl font-semibold text-white mb-5">
-            AI Clinical Summary
-        </h2>
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
 
-        <div className="space-y-4">
+        {/* LEFT INTELLIGENCE ZONE */}
 
-          <div className="
-            border border-blue-500/20
-            bg-blue-500/10
-            rounded-xl
-            p-5
-            "
-          >
-            <h3 className="font-semibold text-white mb-2">
-              Doctor Summary
-            </h3>
+        <div className="xl:col-span-2 space-y-6">
 
-            <p>
-              {patient.llm_insights?.doctor_summary}
-            </p>
-          </div>
+          {/* AI CLINICAL SUMMARY */}
 
-          <div className="
-                border border-green-500/20
-                bg-green-500/10
-                rounded-xl
-                p-5
-                "
-              >
-            <h3 className="font-semibold text-white mb-2">
-              Coordinator Summary
-            </h3>
+          <SectionCard title="AI Clinical Summary">
 
-            <p>
-              {patient.llm_insights?.coordinator_summary}
-            </p>
-          </div>
+            <div className="space-y-4">
 
-        </div>
-        </div>
-
-      {/* RISK ANALYSIS */}
-
-      <div className="
-          bg-slate-900/90
-            border border-slate-800
-            rounded-2xl
-            p-6
-            shadow-xl shadow-black/20
-            "
-      >
-        <h2 className="text-2xl font-semibold text-white mb-5">
-          Risk Analysis
-        </h2>
-
-        <div className="space-y-3">
-          {patient.risk_analysis?.risk_factors?.map(
-            (factor, index) => (
               <div
-                key={index}
                 className="
-                  bg-red-500/10
-                  border border-red-500/20
+                  bg-blue-500/10
+                  border border-blue-500/20
                   rounded-xl
-                  p-4
-                  text-red-100
+                  p-5
                 "
-
               >
-                {factor}
+                <h3 className="font-semibold text-white mb-2">
+                  Doctor Summary
+                </h3>
+
+                <p className="text-slate-300 leading-relaxed">
+                  {patient.llm_insights?.doctor_summary}
+                </p>
               </div>
-            )
-          )}
-        </div>
-      </div>
 
-      {/* PROGRESSION ANALYSIS */}
-
-      <div className="
-          bg-slate-900/90
-            border border-slate-800
-            rounded-2xl
-            p-6
-            shadow-xl shadow-black/20
-            "
-      >
-        <h2 className="text-2xl font-semibold text-white mb-5">
-          Progression Analysis
-        </h2>
-
-        <div className="space-y-3">
-          {patient.progression_analysis?.progression_summary?.map(
-            (finding, index) => (
               <div
-                key={index}
                 className="
-                  bg-yellow-500/10
-                  border border-yellow-500/20
+                  bg-green-500/10
+                  border border-green-500/20
                   rounded-xl
-                  p-4
-                  text-yellow-100
+                  p-5
                 "
               >
-                {finding}
+                <h3 className="font-semibold text-white mb-2">
+                  Coordinator Summary
+                </h3>
+
+                <p className="text-slate-300 leading-relaxed">
+                  {patient.llm_insights?.coordinator_summary}
+                </p>
               </div>
-            )
-          )}
+
+            </div>
+
+          </SectionCard>
+
+          {/* RISK ANALYSIS */}
+
+          <SectionCard title="Risk Analysis">
+
+            <div className="space-y-3">
+
+              {patient.risk_analysis?.risk_factors?.map(
+                (factor, index) => (
+                  <div
+                    key={index}
+                    className="
+                      bg-red-500/10
+                      border border-red-500/20
+                      rounded-xl
+                      p-4
+                      text-red-100
+                    "
+                  >
+                    {factor}
+                  </div>
+                )
+              )}
+
+            </div>
+
+          </SectionCard>
+
+          {/* PROGRESSION ANALYSIS */}
+
+          <SectionCard title="Progression Analysis">
+
+            <div className="space-y-3">
+
+              {patient.progression_analysis?.progression_summary?.map(
+                (finding, index) => (
+                  <div
+                    key={index}
+                    className="
+                      bg-yellow-500/10
+                      border border-yellow-500/20
+                      rounded-xl
+                      p-4
+                      text-yellow-100
+                    "
+                  >
+                    {finding}
+                  </div>
+                )
+              )}
+
+            </div>
+
+          </SectionCard>
+
+          {/* VARIANCE ANALYSIS */}
+
+          <SectionCard title="Care Path Variance">
+
+            <div className="space-y-3">
+
+              {patient.variance_analysis?.variance_flags?.map(
+                (variance, index) => (
+                  <div
+                    key={index}
+                    className="
+                      bg-purple-500/10
+                      border border-purple-500/20
+                      rounded-xl
+                      p-4
+                      text-purple-100
+                    "
+                  >
+                    {variance}
+                  </div>
+                )
+              )}
+
+            </div>
+
+          </SectionCard>
+
         </div>
-      </div>
 
-      {/* VARIANCE ANALYSIS */}
+        {/* RIGHT OPERATIONAL RAIL */}
 
-      <div className="
-          bg-slate-900/90
-            border border-slate-800
-            rounded-2xl
-            p-6
-            shadow-xl shadow-black/20
-            "
-      >
-        <h2 className="text-2xl font-semibold text-white mb-5">
-          Care Path Variance
-        </h2>
+        <div className="space-y-6">
 
-        <div className="space-y-3">
-          {patient.variance_analysis?.variance_flags?.map(
-            (variance, index) => (
-              <div
-                key={index}
-                className="
-                  bg-purple-500/10
-                  border border-purple-500/20
-                  rounded-xl
-                  p-4
-                  text-purple-100
-                "
-              >
-                {variance}
-              </div>
-            )
-          )}
+          {/* ESCALATIONS */}
+
+          <SectionCard title="Operational Escalations">
+
+            <div className="space-y-4">
+
+              {hasConversionBarriers && (
+                <EscalationBanner
+                  title="Conversion Risk"
+                  description="Operational intelligence detected barriers affecting procedure conversion."
+                  type="warning"
+                />
+              )}
+
+              {hasCareGaps && (
+                <EscalationBanner
+                  title="Care Gap Escalation"
+                  description="Clinical workflow gaps detected requiring follow-up attention."
+                  type="danger"
+                />
+              )}
+
+              {hasProcedureDelays && (
+                <EscalationBanner
+                  title="Procedure Delay"
+                  description="Delayed progression detected in procedural care pathway."
+                  type="warning"
+                />
+              )}
+
+            </div>
+
+          </SectionCard>
+
+          {/* CONVERSION INTELLIGENCE */}
+
+          <SectionCard title="Conversion Intelligence">
+
+            <div className="space-y-3">
+
+              {patient.conversion_analysis?.conversion_barriers?.map(
+                (barrier, index) => (
+                  <div
+                    key={index}
+                    className="
+                      bg-orange-500/10
+                      border border-orange-500/20
+                      rounded-xl
+                      p-4
+                      text-orange-100
+                    "
+                  >
+                    {barrier}
+                  </div>
+                )
+              )}
+
+            </div>
+
+          </SectionCard>
+
         </div>
-      </div>
 
-      {/* CONVERSION ANALYSIS */}
-
-      <div className="
-          bg-slate-900/90
-            border border-slate-800
-            rounded-2xl
-            p-6
-            shadow-xl shadow-black/20
-            "
-      >
-        <h2 className="text-2xl font-semibold text-white mb-5">
-          Conversion Intelligence
-        </h2>
-
-        <div className="space-y-3">
-          {patient.conversion_analysis?.conversion_barriers?.map(
-            (barrier, index) => (
-              <div
-                key={index}
-                className="
-                  bg-orange-500/10
-                  border border-orange-500/20
-                  rounded-xl
-                  p-4
-                  text-orange-100
-                "
-              >
-                {barrier}
-              </div>
-            )
-          )}
-        </div>
       </div>
 
       {/* CLINICAL EXPLAINABILITY */}
