@@ -7,7 +7,7 @@ import CohortDetail from "./pages/CohortDetail";
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-blue-50">
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/patients" element={<Patients />} />

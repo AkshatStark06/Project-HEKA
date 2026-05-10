@@ -88,82 +88,132 @@ function Dashboard() {
 
   if (!summary) {
     return (
-      <div className="p-6">
-        <h1 className="text-2xl font-bold">
-          Loading Dashboard...
-        </h1>
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">
+        <div className="text-center space-y-3">
+          <h1 className="text-3xl font-bold">
+            Loading HEKA Intelligence Workspace
+          </h1>
+
+          <p className="text-slate-400">
+            Initializing operational intelligence systems...
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-4xl font-bold text-gray-800">
-          HEKA Clinical Intelligence Dashboard
-        </h1>
+    <div className="min-h-screen bg-slate-950 text-white">
+      <div className="max-w-7xl mx-auto px-6 py-8 space-y-10">
+        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
+  
+          <div className="space-y-3">
+            <div>
+              <p className="text-sm uppercase tracking-[0.2em] text-slate-500">
+                Explainable Clinical Operations Platform
+              </p>
 
-        <p className="text-gray-500 mt-2">
-          Explainable Clinical Operations Intelligence
-        </p>
-        <Link
-            to="/patients"
-            className="inline-block mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-        >
-            View Patients
-        </Link>
+              <h1 className="text-4xl xl:text-5xl font-bold tracking-tight mt-2">
+                HEKA Clinical Intelligence
+              </h1>
+            </div>
+
+            <p className="text-slate-400 max-w-3xl leading-relaxed">
+              Operational intelligence workspace for patient prioritization,
+              longitudinal risk tracking, conversion intelligence, and
+              explainable care coordination workflows.
+            </p>
+          </div>
+
+          <div>
+            <Link
+              to="/patients"
+              className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-900/30 transition hover:bg-blue-500"
+            >
+              Open Patient Registry
+            </Link>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+  
+          <div>
+            <h2 className="text-xl font-semibold">
+              Operational Intelligence Overview
+            </h2>
+
+            <p className="text-sm text-slate-400 mt-1">
+              Real-time explainable patient risk and workflow metrics generated
+              from backend intelligence engines.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+          <KPICard
+            title="Total Patients"
+            value={summary.total_patients}
+          />
+
+          <KPICard
+            title="High Risk Patients"
+            value={summary.high_risk_patients}
+          />
+
+          <KPICard
+            title="Moderate Risk Patients"
+            value={summary.moderate_risk_patients}
+          />
+
+          <KPICard
+            title="Low Risk Patients"
+            value={summary.low_risk_patients}
+          />
+
+          <KPICard
+            title="Pending Procedures"
+            value={summary.pending_procedures}
+          />
+
+          <KPICard
+            title="Conversion Risk Patients"
+            value={summary.conversion_risk_patients}
+          />
+
+          <KPICard
+            title="Lost Follow-Up Patients"
+            value={summary.lost_followup_patients}
+          />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          <RiskQueueCard
+            title="High-Risk Patient Queue"
+            patients={highRiskPatients}
+          />
+
+          <RiskQueueCard
+            title="Conversion-Risk Queue"
+            patients={conversionRiskPatients}
+          />
+        </div>
+
+        <div className="space-y-4">
+
+          <div>
+            <h2 className="text-xl font-semibold">
+              Cohort Intelligence
+            </h2>
+
+            <p className="text-sm text-slate-400 mt-1">
+              Longitudinal patient segmentation based on operational,
+              progression, and conversion intelligence patterns.
+            </p>
+          </div>
+
+          <CohortSection cohorts={cohortData} />
+        </div>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <KPICard
-          title="Total Patients"
-          value={summary.total_patients}
-        />
-
-        <KPICard
-          title="High Risk Patients"
-          value={summary.high_risk_patients}
-        />
-
-        <KPICard
-          title="Moderate Risk Patients"
-          value={summary.moderate_risk_patients}
-        />
-
-        <KPICard
-          title="Low Risk Patients"
-          value={summary.low_risk_patients}
-        />
-
-        <KPICard
-          title="Pending Procedures"
-          value={summary.pending_procedures}
-        />
-
-        <KPICard
-          title="Conversion Risk Patients"
-          value={summary.conversion_risk_patients}
-        />
-
-        <KPICard
-          title="Lost Follow-Up Patients"
-          value={summary.lost_followup_patients}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        <RiskQueueCard
-          title="High-Risk Patient Queue"
-          patients={highRiskPatients}
-        />
-
-        <RiskQueueCard
-          title="Conversion-Risk Queue"
-          patients={conversionRiskPatients}
-        />
-      </div>
-
-      <CohortSection cohorts={cohortData} />
     </div>
   );
 }
