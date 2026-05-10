@@ -4,7 +4,7 @@ export default function PriorityReasonTag({
 }) {
   const styles = {
     danger:
-      "bg-red-100 text-red-100 border border-red-200",
+      "bg-red-100 text-red-700 border border-red-200",
 
     warning:
       "bg-yellow-100 text-yellow-800 border border-yellow-300",

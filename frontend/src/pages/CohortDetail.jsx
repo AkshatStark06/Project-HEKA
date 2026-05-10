@@ -101,41 +101,76 @@ export default function CohortDetail() {
 
   if (loading) {
     return (
-      <div className="p-6">
-        <h1 className="text-2xl font-bold">
-          Loading Cohort Intelligence...
-        </h1>
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">
+        <div className="text-center space-y-3">
+          <h1 className="text-3xl font-bold">
+            Loading Cohort Intelligence
+          </h1>
+
+          <p className="text-slate-400">
+            Initializing operational drilldown workspace...
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 p-6 space-y-6">
+    <div className="min-h-screen bg-slate-950 text-white">
+      <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
 
-      <div>
-        <h1 className="text-4xl font-bold text-slate-800">
-          Cohort Drilldown
-        </h1>
+      <div className="space-y-3">
 
-        <p className="text-slate-500 mt-2">
-          Operational intelligence for:
-          {" "}
-          <span className="font-semibold">
+        <div>
+          <p className="text-sm uppercase tracking-[0.2em] text-slate-500">
+            Operational Cohort Intelligence
+          </p>
+
+          <h1 className="text-4xl xl:text-5xl font-bold tracking-tight mt-2">
+            Cohort Drilldown
+          </h1>
+        </div>
+
+        <p className="text-slate-400 max-w-3xl leading-relaxed">
+          Explainable operational intelligence workspace for cohort-based
+          patient prioritization, workflow monitoring, and longitudinal
+          progression analysis.
+        </p>
+
+        <div
+          className="
+            inline-flex items-center rounded-full
+            border border-blue-500/20
+            bg-blue-500/10
+            px-4 py-2
+            text-sm text-blue-300
+          "
+        >
+          Cohort:
+          <span className="ml-2 font-semibold">
             {cohortName}
           </span>
-        </p>
+        </div>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+      <div
+        className="
+          rounded-2xl
+          border border-slate-800
+          bg-slate-900/90
+          shadow-xl shadow-black/20
+          overflow-hidden
+        "
+      >
 
-        <div className="p-5 border-b border-slate-200">
-          <h2 className="text-xl font-bold text-slate-800">
+        <div className="p-6 border-b border-slate-800">
+          <h2 className="text-2xl font-semibold text-white">
             Patients in Cohort
           </h2>
 
           <div className="mt-1 space-y-1">
 
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-slate-400">
               {filteredPatients.length} patients identified
             </p>
 
@@ -184,7 +219,7 @@ export default function CohortDetail() {
             setSortBy={setSortBy}
             />
 
-        <div>
+        <div className="divide-y divide-slate-800">
           {patients.length > 0 ? (
             filteredPatients.map((patient) => (
               <PriorityPatientRow
@@ -207,6 +242,7 @@ export default function CohortDetail() {
           )}
         </div>
 
+      </div>
       </div>
     </div>
   );
