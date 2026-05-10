@@ -37,8 +37,8 @@ export default function PriorityPatientRow({ patient }) {
       to={`/patients/${patient.patient_id}`}
       className="block border-b border-slate-200 py-3 hover:bg-slate-50 transition"
     >
-      <div className="flex items-center justify-between">
-        <div>
+      <div className="flex items-center justify-between gap-6">
+        <div className="flex-1 min-w-0">
           <h4 className="font-semibold text-slate-800">
             {patient.name || "Unknown Patient"}
           </h4>
@@ -63,7 +63,7 @@ export default function PriorityPatientRow({ patient }) {
             </div>
         </div>
 
-        <div className="text-right">
+        <div className="text-right min-w-[100px] pr-4">
           <span
             className={`
                 px-3 py-1 rounded-full text-xs font-semibold

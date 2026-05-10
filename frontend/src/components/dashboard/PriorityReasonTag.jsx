@@ -4,23 +4,23 @@ export default function PriorityReasonTag({
 }) {
   const styles = {
     danger:
-      "bg-red-500/15 text-red-300 border border-red-500/30",
+      "bg-red-100 text-red-100 border border-red-200",
 
     warning:
-      "bg-yellow-500/15 text-yellow-300 border border-yellow-500/30",
+      "bg-yellow-100 text-yellow-800 border border-yellow-300",
 
     info:
-      "bg-blue-500/15 text-blue-300 border border-blue-500/30",
+      "bg-blue-100 text-blue-700 border border-blue-200",
 
     default:
-      "bg-slate-700 text-slate-300 border border-slate-600",
+      "bg-slate-100 text-slate-700 border border-slate-200",
   };
 
   return (
     <span
       className={`
-        text-xs px-2 py-1 rounded-full
-        font-medium
+        text-xs px-3 py-1 rounded-full
+        font-semibold
         ${styles[type]}
       `}
     >
