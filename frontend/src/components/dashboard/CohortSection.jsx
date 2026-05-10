@@ -13,22 +13,7 @@ export default function CohortSection({
         overflow-hidden
       "
     >
-      <div
-        className="
-          px-6 py-5
-          border-b border-slate-800
-        "
-      >
-        <h2 className="text-xl font-semibold text-white">
-          Cohort Intelligence
-        </h2>
-
-        <p className="text-sm text-slate-400 mt-1 max-w-3xl">
-          Longitudinal patient segmentation generated from
-          operational, progression, and conversion intelligence
-          engines.
-        </p>
-      </div>
+      
 
       <div className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">

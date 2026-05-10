@@ -1,25 +1,27 @@
 import TimelineBadge from "./TimelineBadge";
 
 function TimelineEventCard({ event }) {
+
   const renderDetails = () => {
     switch (event.event_type) {
+
       case "visit":
         return (
           <>
             {event.department && (
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-slate-300">
                 Department: {event.department}
               </p>
             )}
 
             {event.doctor && (
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-slate-300">
                 Doctor: {event.doctor}
               </p>
             )}
 
             {event.visit_type && (
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-slate-300">
                 Visit Type: {event.visit_type}
               </p>
             )}
@@ -30,14 +32,14 @@ function TimelineEventCard({ event }) {
         return (
           <>
             {event.call_summary && (
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-slate-300">
                 {event.call_summary}
               </p>
             )}
 
             {event.call_outcome && (
-              <p className="text-sm">
-                <span className="font-medium">
+              <p className="text-sm text-slate-300">
+                <span className="font-medium text-white">
                   Outcome:
                 </span>{" "}
                 {event.call_outcome}
@@ -50,14 +52,14 @@ function TimelineEventCard({ event }) {
         return (
           <>
             {event.action && (
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-slate-300">
                 {event.action}
               </p>
             )}
 
             {event.status && (
-              <p className="text-sm">
-                <span className="font-medium">
+              <p className="text-sm text-slate-300">
+                <span className="font-medium text-white">
                   Status:
                 </span>{" "}
                 {event.status}
@@ -68,7 +70,7 @@ function TimelineEventCard({ event }) {
 
       default:
         return (
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-slate-500">
             No additional details available.
           </p>
         );
@@ -92,17 +94,26 @@ function TimelineEventCard({ event }) {
   };
 
   return (
-    <div className="border border-gray-200 rounded-xl p-4 bg-white shadow-sm">
-      <div className="flex items-center justify-between mb-3">
+    <div
+      className="
+        rounded-2xl
+        border border-slate-800
+        bg-slate-900/90
+        p-5
+        shadow-lg shadow-black/10
+      "
+    >
+      <div className="flex items-center justify-between mb-4">
+
         <TimelineBadge type={event.event_type} />
 
-        <span className="text-sm text-gray-500">
+        <span className="text-sm text-slate-500">
           {event.date}
         </span>
       </div>
 
-      <div className="space-y-2">
-        <h4 className="font-semibold text-gray-800">
+      <div className="space-y-3">
+        <h4 className="font-semibold text-white text-lg">
           {getTitle()}
         </h4>
 

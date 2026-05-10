@@ -5,17 +5,24 @@ export default function SectionCard({
   rightContent,
 }) {
   return (
-    <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
-
-      <div className="flex items-start justify-between mb-5">
+    <div
+      className="
+        rounded-2xl
+        border border-slate-800
+        bg-slate-900/90
+        shadow-xl shadow-black/20
+        p-6
+      "
+    >
+      <div className="flex items-start justify-between mb-6">
 
         <div>
-          <h2 className="text-2xl font-bold text-slate-800">
+          <h2 className="text-2xl font-semibold text-white">
             {title}
           </h2>
 
           {subtitle && (
-            <p className="text-sm text-slate-500 mt-1">
+            <p className="text-sm text-slate-400 mt-1">
               {subtitle}
             </p>
           )}
@@ -32,7 +39,6 @@ export default function SectionCard({
       <div>
         {children}
       </div>
-
     </div>
   );
 }

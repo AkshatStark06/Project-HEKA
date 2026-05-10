@@ -10,6 +10,9 @@ import CohortSection from "../components/dashboard/CohortSection";
 
 import cohortConfig from "../utils/cohortConfig";
 
+import RiskDistributionChart from "../components/dashboard/RiskDistributionChart";
+import CohortBarChart from "../components/dashboard/CohortBarChart";
+
 
 function Dashboard() {
   const [summary, setSummary] = useState(null);
@@ -201,7 +204,7 @@ function Dashboard() {
         <div className="space-y-4">
 
           <div>
-            <h2 className="text-xl font-semibold">
+            <h2 className="text-2xl font-semibold">
               Cohort Intelligence
             </h2>
 
@@ -211,6 +214,8 @@ function Dashboard() {
             </p>
           </div>
 
+          <RiskDistributionChart summary={summary} />
+          <CohortBarChart cohorts={cohortData} />
           <CohortSection cohorts={cohortData} />
         </div>
       </div>
