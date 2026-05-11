@@ -11,6 +11,8 @@ import PatientIntelligenceRail from "../components/patients/PatientIntelligenceR
 import { getProgressionStatus } from "../utils/getProgressionStatus";
 import { buildPatientEvidence } from "../utils/aiEvidenceBuilder";
 
+import { buildSemanticTimeline } from "../utils/buildSemanticTimeline";
+
 
 import hekaApi from "../api/hekaApi";
 import {
@@ -108,6 +110,12 @@ function PatientDetail() {
 
   const progressionStatus = getProgressionStatus(patient);
   const supportingEvidence = buildPatientEvidence(patient);
+
+  const semanticTimeline = buildSemanticTimeline(
+    patient,
+    patient?.progression_analysis,
+    patient?.risk_analysis
+  );
   
   const hasConversionBarriers =
     patient?.conversion_analysis?.conversion_barriers?.length > 0;
@@ -130,6 +138,9 @@ function PatientDetail() {
       </div>
     );
   }
+
+  console.log(patient);
+  console.log(semanticTimeline);
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
@@ -703,7 +714,7 @@ function PatientDetail() {
 
         <div className="mt-6">
           <h2 className="text-xl font-bold mb-4">Timeline Intelligence</h2>
-          <TimelineContainer timeline={patient.timeline} />
+          <TimelineContainer timeline={semanticTimeline} />
         </div>
 
       </div>

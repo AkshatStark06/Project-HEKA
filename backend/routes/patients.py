@@ -23,9 +23,26 @@ def get_patients():
             "name": processed_patient
                 .get("demographics", {})
                 .get("name"),
+
+            "age": processed_patient
+                .get("demographics", {})
+                .get("age"),
+
+            "gender": processed_patient
+                .get("demographics", {})
+                .get("gender"),
+
             "risk_level": processed_patient
                 .get("risk_analysis", {})
                 .get("risk_level"),
+
+            "risk_score": processed_patient
+                .get("risk_analysis", {})
+                .get("risk_score"),
+
+            "priority_level": processed_patient
+                .get("risk_analysis", {})
+                .get("priority_level"),
 
             "cohorts": processed_patient
                 .get("cohort_analysis", {})
@@ -33,7 +50,19 @@ def get_patients():
 
             "conversion_status": processed_patient
                 .get("conversion_analysis", {})
-                .get("conversion_status")
+                .get("conversion_status"),
+
+            "department": processed_patient
+                .get("current_referral", {})
+                .get("department"),
+
+            "procedure_type": processed_patient
+                .get("current_referral", {})
+                .get("procedure_type"),
+
+            "last_visit_date": processed_patient
+                .get("latest_visit", {})
+                .get("visit_date")
         })
 
     return response

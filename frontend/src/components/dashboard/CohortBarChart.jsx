@@ -27,7 +27,7 @@ export default function CohortBarChart({
     >
       <div className="mb-6">
         <h2 className="text-2xl font-semibold text-white">
-          Cohort Intelligence Trends
+          Cohort Trends
         </h2>
 
         <p className="text-slate-400 mt-1">
@@ -47,6 +47,9 @@ export default function CohortBarChart({
             <XAxis
               dataKey="name"
               stroke="#94a3b8"
+              interval={0}
+              angle={0}
+              tick={{ fontSize: 12 }}
             />
 
             <YAxis stroke="#94a3b8" />

@@ -13,20 +13,49 @@ function TimelineContainer({ timeline }) {
     <div className="relative border-l-2 border-slate-700 ml-4 space-y-6">
       {timeline.map((event, index) => (
         <div
-          key={index}
-          className="relative pl-8"
+          key={event.id}
+          className={`
+            border-l-4 pl-4 py-4 rounded-r-xl mb-4
+            ${
+              event.severity === "high"
+                ? "border-red-500 bg-red-500/5"
+                : event.severity === "moderate"
+                ? "border-amber-500 bg-amber-500/5"
+                : "border-emerald-500 bg-emerald-500/5"
+            }
+          `}
         >
-          <div
-            className="
-              absolute -left-[11px] top-7
-              w-5 h-5 rounded-full
-              bg-blue-500
-              border-4 border-slate-950
-              shadow-lg shadow-blue-500/20
-            "
-          />
 
-          <TimelineEventCard event={event} />
+          {/* DATE + SOURCE */}
+
+          <div className="flex items-center justify-between mb-2">
+
+            <p className="text-xs text-slate-400 uppercase tracking-wider">
+              {new Date(event.date).toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}
+            </p>
+
+            <div className="text-[10px] uppercase tracking-widest px-2 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+              {event.sourceType}
+            </div>
+
+          </div>
+
+          {/* TITLE */}
+
+          <h3 className="text-white font-semibold text-sm mb-2">
+            {event.title}
+          </h3>
+
+          {/* DESCRIPTION */}
+
+          <p className="text-sm text-slate-300 leading-relaxed">
+            {event.description}
+          </p>
+
         </div>
       ))}
     </div>

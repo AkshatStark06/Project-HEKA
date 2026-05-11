@@ -12,10 +12,12 @@ import cohortConfig from "../utils/cohortConfig";
 
 import RiskDistributionChart from "../components/dashboard/RiskDistributionChart";
 import CohortBarChart from "../components/dashboard/CohortBarChart";
-import RiskScoreDistributionChart from "../components/dashboard/RiskScoreDistributionChart";
+import AgeRiskChart from "../components/dashboard/AgeRiskChart";
+import CohortCombinationChart from "../components/dashboard/CohortCombinationChart";
 
 function Dashboard() {
   const [summary, setSummary] = useState(null);
+  const [allPatients, setAllPatients] = useState([]);
 
   const [highRiskPatients, setHighRiskPatients] = useState([]);
 
@@ -41,6 +43,15 @@ function Dashboard() {
 
       const conversionRiskResponse =
         await hekaApi.get("/conversion-risk");
+
+      const allPatientsResponse =
+        await hekaApi.get("/patients");
+
+      setAllPatients(allPatientsResponse.data);
+      console.log(
+        "ALL PATIENTS API",
+        allPatientsResponse.data
+      );
 
       setHighRiskPatients(highRiskResponse.data);
 
@@ -214,14 +225,26 @@ function Dashboard() {
             </p>
           </div>
 
-          <RiskDistributionChart summary={summary} />
-          <CohortBarChart cohorts={cohortData} />
-          <RiskScoreDistributionChart
-            patients={[
-              ...highRiskPatients,
-              ...conversionRiskPatients,
-            ]}
-          />
+          {/* Analytics Intelligence Grid */}
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+
+            {/* Risk Distribution */}
+            <RiskDistributionChart summary={summary} />
+
+            {/* Cohort Combination Intelligence */}
+            <CohortCombinationChart
+              patients={allPatients}
+            />
+
+            <AgeRiskChart
+              patients={allPatients}
+            />
+
+            {/* Cohort Intelligence Trends */}
+            <CohortBarChart cohorts={cohortData} />
+
+          </div>
+                    
           <CohortSection cohorts={cohortData} />
         </div>
       </div>
