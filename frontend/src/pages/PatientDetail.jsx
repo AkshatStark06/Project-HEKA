@@ -8,6 +8,9 @@ import EscalationBanner from "../components/dashboard/EscalationBanner";
 import PatientRiskTrendChart from "../components/timeline/PatientRiskTrendChart";
 import PatientIntelligenceRail from "../components/patients/PatientIntelligenceRail";
 
+import { getProgressionStatus } from "../utils/getProgressionStatus";
+import { buildPatientEvidence } from "../utils/aiEvidenceBuilder";
+
 import hekaApi from "../api/hekaApi";
 import {
   generatePatientInsights,
@@ -15,6 +18,11 @@ import {
   clearInsightsCache,
   clearProgressionCache,
 } from "../services/llmService";
+
+import {
+  varianceLabelMap,
+  conversionBarrierMap,
+} from "../utils/clinicalLabels";
 
 function PatientDetail() {
   const { id } = useParams();
@@ -97,6 +105,9 @@ function PatientDetail() {
 
   // ── Derived flags ───────────────────────────────────────────────────────────
 
+  const progressionStatus = getProgressionStatus(patient);
+  const supportingEvidence = buildPatientEvidence(patient);
+  console.log("PATIENT DATA", patient);
   const hasConversionBarriers =
     patient?.conversion_analysis?.conversion_barriers?.length > 0;
   const hasProcedureDelays =
@@ -176,7 +187,7 @@ function PatientDetail() {
                   Intelligence Status
                 </p>
                 <p className="text-lg font-semibold text-white mt-1">
-                  Active Operational Monitoring
+                  Active Longitudinal Clinical Monitoring
                 </p>
               </div>
             </div>
@@ -185,6 +196,28 @@ function PatientDetail() {
         </div>
 
         <PatientIntelligenceRail patient={patient} />
+        <div
+          className={`
+            rounded-2xl border px-6 py-5
+            ${progressionStatus.color}
+          `}
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] opacity-70">
+                Clinical Progression Status
+              </p>
+
+              <h2 className="text-2xl font-bold mt-2">
+                {progressionStatus.label}
+              </h2>
+            </div>
+
+            <div className="text-right text-sm opacity-80">
+              Longitudinal clinical trajectory
+            </div>
+          </div>
+        </div>
 
         {/* ESCALATION BANNERS */}
 
@@ -273,9 +306,26 @@ function PatientDetail() {
                       Generating AI clinical insight...
                     </p>
                   ) : aiInsights ? (
-                    <p className="text-slate-300 leading-relaxed">
-                      {aiInsights.clinical_summary}
-                    </p>
+                    <div className="space-y-4">
+                      <p className="text-slate-300 leading-relaxed">
+                        {aiInsights.clinical_summary}
+                      </p>
+
+                      <div className="space-y-2">
+                        <p className="text-xs uppercase tracking-widest text-blue-300">
+                          Supporting Evidence
+                        </p>
+
+                        {supportingEvidence.map((item, index) => (
+                          <div
+                            key={index}
+                            className="text-sm text-slate-400 bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-700"
+                          >
+                            • {item}
+                          </div>
+                        ))}
+                      </div>
+                    </div>                  
                   ) : (
                     <p className="text-slate-500 text-sm leading-relaxed">
                       Click Generate AI Insights above to load.
@@ -402,9 +452,26 @@ function PatientDetail() {
                         Analyzing longitudinal trajectory...
                       </p>
                     ) : aiProgression ? (
-                      <p className="text-slate-200 text-sm leading-relaxed">
-                        {aiProgression.deterioration_summary}
-                      </p>
+                      <div className="space-y-4">
+                        <p className="text-slate-200 text-sm leading-relaxed">
+                          {aiProgression.deterioration_summary}
+                        </p>
+
+                        <div className="space-y-2">
+                          <p className="text-xs uppercase tracking-widest text-violet-300">
+                            Evidence Signals
+                          </p>
+
+                          {supportingEvidence.map((item, index) => (
+                            <div
+                              key={index}
+                              className="text-sm text-slate-400 bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-700"
+                            >
+                              • {item}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     ) : (
                       <p className="text-slate-600 text-sm">
                         Generate analysis to view.
@@ -467,7 +534,7 @@ function PatientDetail() {
                       key={index}
                       className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4 text-purple-100"
                     >
-                      {variance}
+                      {varianceLabelMap[variance] || variance}
                     </div>
                   )
                 )}
@@ -487,7 +554,7 @@ function PatientDetail() {
 
                 {hasConversionBarriers && (
                   <EscalationBanner
-                    title="Conversion Risk"
+                    title="Care Continuity Risk"
                     description="Operational intelligence detected barriers affecting procedure conversion."
                     type="warning"
                   />
@@ -501,7 +568,7 @@ function PatientDetail() {
                 )}
                 {hasProcedureDelays && (
                   <EscalationBanner
-                    title="Procedure Delay"
+                    title="Delayed Procedural Care"
                     description="Delayed progression detected in procedural care pathway."
                     type="warning"
                   />
@@ -510,7 +577,7 @@ function PatientDetail() {
                 {/* AI Escalation Reasoning */}
                 <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4">
                   <h3 className="text-red-200 font-semibold mb-2">
-                    AI Escalation Reasoning
+                    Clinical Escalation Assessment
                   </h3>
                   {loadingAIInsights ? (
                     <p className="text-slate-400 text-sm leading-relaxed animate-pulse">
@@ -532,7 +599,7 @@ function PatientDetail() {
 
             {/* ── CONVERSION INTELLIGENCE ─────────────────────────────────── */}
 
-            <SectionCard title="Conversion Intelligence">
+            <SectionCard title="Care Coordination Factors">
               <div className="space-y-3">
                 {patient.conversion_analysis?.conversion_barriers?.map(
                   (barrier, index) => (
@@ -540,7 +607,7 @@ function PatientDetail() {
                       key={index}
                       className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-4 text-orange-100"
                     >
-                      {barrier}
+                      {conversionBarrierMap[barrier] || barrier}
                     </div>
                   )
                 )}
