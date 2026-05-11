@@ -116,7 +116,14 @@ function parseJsonResponse(raw, requiredKeys) {
     if (!jsonMatch) throw new Error("No JSON object found");
 
     const parsed = JSON.parse(jsonMatch[0]);
-    const allValid = requiredKeys.every((k) => typeof parsed[k] === "string");
+    const allValid = requiredKeys.every((k) => {
+        if (k === "suggested_next_actions") {
+            return Array.isArray(parsed[k]);
+        }
+
+        return typeof parsed[k] === "string";
+    });
+
     if (!allValid) throw new Error("Missing expected keys");
 
     return parsed;
@@ -174,9 +181,20 @@ Return a JSON object with exactly these three keys:
   "clinical_summary": "one plain sentence, max 50 words, operational risk focus",
   "coordinator_summary": "one plain sentence, max 50 words, care coordination focus",
   "escalation_reasoning": "one plain sentence, max 50 words, escalation justification"
+  "suggested_next_actions": [
+    "short actionable recommendation",
+    "short actionable recommendation"
+    ]
 }
 
-No markdown. No bullet points. Plain strings only.
+Rules:
+- suggested_next_actions must contain 2-4 concise operational recommendations.
+- Recommendations must be grounded in the provided patient data.
+- Avoid generic advice.
+- Focus on actionable outpatient follow-up, monitoring, coordination, or escalation actions.
+- No markdown.
+- No bullet points.
+- Summaries must remain plain strings.
 `;
 
   const raw = await callGroq(prompt, true);
@@ -185,6 +203,7 @@ No markdown. No bullet points. Plain strings only.
     clinical_summary: "Rate limit reached. Click Regenerate in ~1 minute.",
     coordinator_summary: "Rate limit reached. Click Regenerate in ~1 minute.",
     escalation_reasoning: "Rate limit reached. Click Regenerate in ~1 minute.",
+    suggested_next_actions: [],
     _rate_limited: true,
   };
 
@@ -194,6 +213,7 @@ No markdown. No bullet points. Plain strings only.
     "clinical_summary",
     "coordinator_summary",
     "escalation_reasoning",
+    "suggested_next_actions",
   ]);
 
   if (!parsed) {
@@ -201,6 +221,7 @@ No markdown. No bullet points. Plain strings only.
       clinical_summary: "AI summary unavailable.",
       coordinator_summary: "Coordinator insight unavailable.",
       escalation_reasoning: "Escalation insight unavailable.",
+      suggested_next_actions: [],
     };
   }
 

@@ -11,6 +11,7 @@ import PatientIntelligenceRail from "../components/patients/PatientIntelligenceR
 import { getProgressionStatus } from "../utils/getProgressionStatus";
 import { buildPatientEvidence } from "../utils/aiEvidenceBuilder";
 
+
 import hekaApi from "../api/hekaApi";
 import {
   generatePatientInsights,
@@ -107,7 +108,7 @@ function PatientDetail() {
 
   const progressionStatus = getProgressionStatus(patient);
   const supportingEvidence = buildPatientEvidence(patient);
-  console.log("PATIENT DATA", patient);
+  
   const hasConversionBarriers =
     patient?.conversion_analysis?.conversion_barriers?.length > 0;
   const hasProcedureDelays =
@@ -617,6 +618,59 @@ function PatientDetail() {
           </div>
 
         </div>
+
+        {aiInsights?.suggested_next_actions?.length > 0 && (
+          <SectionCard title="Suggested Next Actions">
+            <div className="space-y-4">
+
+              {aiInsights.suggested_next_actions.map(
+                (action, index) => (
+                  <div
+                    key={index}
+                    className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-5"
+                  >
+                    <div className="flex items-start gap-4">
+
+                      <div className="mt-1 h-2 w-2 rounded-full bg-emerald-400" />
+
+                      <div className="space-y-2">
+
+                        <p className="text-emerald-100 font-medium leading-relaxed">
+                          {action}
+                        </p>
+
+                        {/* Supporting evidence */}
+                        {supportingEvidence.length > 0 && (
+                          <div className="space-y-1 pt-2">
+
+                            <p className="text-[10px] uppercase tracking-widest text-emerald-300/70">
+                              Grounded Signals
+                            </p>
+
+                            {supportingEvidence.slice(0, 3).map(
+                              (item, evidenceIndex) => (
+                                <div
+                                  key={evidenceIndex}
+                                  className="text-xs text-slate-400"
+                                >
+                                  • {item}
+                                </div>
+                              )
+                            )}
+
+                          </div>
+                        )}
+
+                      </div>
+
+                    </div>
+                  </div>
+                )
+              )}
+
+            </div>
+          </SectionCard>
+        )}
 
         {/* CLINICAL EXPLAINABILITY */}
 
