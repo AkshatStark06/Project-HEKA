@@ -1,14 +1,14 @@
-# HEKA — Healthcare Evaluation & Knowledge Assistant
+# H.E.K.A — Healthcare Evaluation & Knowledge Assistant
 
 > Inspired by **Heka**, the ancient Egyptian god associated with healing, medicine, magic, and the power of transformative knowledge.
 
-HEKA is an explainable AI-powered clinical intelligence and operational analytics platform designed to assist healthcare systems in longitudinal patient monitoring, risk prioritization, conversion intelligence, care coordination analysis, and explainable clinical workflows.
+H.E.K.A. is an explainable AI-powered clinical intelligence and operational analytics platform designed to assist healthcare systems in longitudinal patient monitoring, risk prioritization, conversion intelligence, care coordination analysis, and explainable clinical workflows.
 
 ---
 
 # Overview
 
-HEKA combines:
+H.E.K.A. combines:
 
 * Clinical intelligence
 * Longitudinal progression analysis
@@ -33,27 +33,6 @@ The platform is designed to simulate a modern healthcare operational intelligenc
 
 ---
 
-# Full Form
-
-## HEKA
-
-**Healthcare Evaluation & Knowledge Assistant**
-
-The name is additionally inspired by:
-
-## Heka — Ancient Egyptian God
-
-In ancient Egyptian mythology, **Heka** represented:
-
-* Healing
-* Medicine
-* Transformative knowledge
-* Life-force energy
-* The power of intelligence and restoration
-
-This aligns with the platform's purpose of combining healthcare intelligence with explainable AI-driven operational reasoning.
-
----
 
 # Key Features
 
@@ -73,7 +52,7 @@ Each patient profile includes:
 
 ## AI Clinical Summaries
 
-HEKA generates:
+H.E.K.A. generates:
 
 * Doctor-focused summaries
 * Care coordinator summaries
@@ -101,7 +80,7 @@ The dashboard includes:
 
 ## Longitudinal Timeline Intelligence
 
-HEKA reconstructs patient journeys through:
+H.E.K.A. reconstructs patient journeys through:
 
 * Semantic timeline generation
 * Risk trajectory analysis
@@ -198,15 +177,7 @@ Tracks:
 
 ## Cohort Engine
 
-Builds operational cohorts such as:
-
-* Uncontrolled diabetes
-* Persistent hypertension
-* Cardiac high-risk
-* Conversion risk
-* Lost follow-up
-* Financial barriers
-* Insurance barriers
+Builds clinically meaningful operational cohorts for patient prioritization, longitudinal monitoring, and care coordination workflows.
 
 ---
 
@@ -223,13 +194,56 @@ Identifies:
 
 ## AI Intelligence Layer
 
-Generates:
+Generates explainable operational and clinical intelligence using evidence-grounded LLM reasoning workflows.
 
-* Clinical summaries
-* Progression analysis
-* Escalation reasoning
-* Intervention priorities
-* Suggested operational actions
+---
+
+# Clinical Intelligence Methodology
+
+---
+
+## Dashboard Approach
+
+HEKA was designed as an operational clinical intelligence workspace rather than a static patient summary viewer.
+
+The platform prioritizes:
+- longitudinal patient understanding
+- risk-based prioritization
+- explainable escalation visibility
+- operational care coordination
+- clinically actionable intelligence
+
+The workflow is optimized so clinicians and care teams can:
+- identify high-risk patients quickly
+- detect worsening longitudinal patterns
+- understand care-path deviations
+- review AI-supported summaries
+- trace all intelligence back to evidence
+
+---
+
+## Data-to-Insight Pipeline
+
+HEKA transforms raw OPD JSON records into explainable operational intelligence through a multi-stage pipeline:
+
+```text
+Raw Patient JSON
+    ↓
+Patient Processing Layer
+    ↓
+Clinical Intelligence Engines
+    ├── Risk Engine
+    ├── Progression Engine
+    ├── Cohort Engine
+    ├── Variance Engine
+    ├── Conversion Intelligence Engine
+    └── Traceability Layer
+    ↓
+LLM Intelligence Layer
+    ↓
+Explainable Dashboard UI
+
+```
 
 ---
 
@@ -255,7 +269,7 @@ Generates:
 
 # Example Operational Insights
 
-HEKA can identify:
+H.E.K.A. can identify:
 
 * Patients at risk of care abandonment
 * Delayed procedural pathways
@@ -330,32 +344,115 @@ uvicorn main:app --reload
 
 ---
 
-# Future Enhancements
+## Prompt Engineering Strategy
 
-Potential future directions:
+The LLM layer was designed using evidence-grounded prompting techniques.
 
-* Real EHR integration
-* Multi-patient timeline analytics
-* Predictive deterioration scoring
-* Clinical recommendation ranking
-* Multi-agent AI orchestration
-* Real-time streaming intelligence
-* Provider workflow integration
-* HIPAA-compliant infrastructure
+Prompts are structured to:
+- summarize longitudinal progression
+- generate escalation reasoning
+- suggest operational next actions
+- identify deterioration trends
+- avoid unsupported hallucinated claims
+
+The AI layer receives:
+- progression findings
+- risk signals
+- cohort classifications
+- operational barriers
+- evidence-grounded clinical indicators
+
+This improves reliability and keeps outputs operationally relevant.
 
 ---
 
-# Educational Purpose
+## Cohortization Logic
 
-This project was built for:
+Patients are grouped into clinically meaningful operational cohorts using deterministic rules derived from longitudinal patterns and structured patient signals.
 
-* Healthcare AI exploration
-* Clinical analytics prototyping
-* Explainable AI experimentation
-* Full-stack data intelligence engineering
-* Portfolio and learning purposes
+Example cohorts include:
+- uncontrolled diabetes
+- persistent hypertension
+- cardiac high-risk
+- conversion risk
+- procedure pending
+- lost follow-up
+- financial barrier
+- insurance barrier
 
-It is not intended for real-world medical decision making.
+Cohorts are designed to support:
+- operational prioritization
+- care coordination
+- intervention planning
+- longitudinal monitoring
+
+---
+
+## Care-Path Variance Logic
+
+HEKA identifies patients deviating from expected outpatient progression pathways.
+
+Variance detection includes:
+- persistent symptoms without stabilization
+- delayed procedures
+- repeated visits without improvement
+- unresolved chronic disease progression
+- missed follow-ups
+- conversion barriers
+- operational care gaps
+
+Variance intelligence is surfaced directly in both dashboard-level analytics and patient-level explainability sections.
+
+---
+
+## Validation & Grounding Strategy
+
+A major project focus was explainable and grounded AI output.
+
+To improve trustworthiness:
+- all AI summaries are grounded in structured patient evidence
+- longitudinal signals are explicitly surfaced
+- supporting evidence is displayed alongside insights
+- traceability layers connect intelligence back to:
+  - labs
+  - medications
+  - progression signals
+  - visit history
+  - care gaps
+  - operational events
+
+Insights without supporting evidence are intentionally avoided.
+
+---
+
+## Known Limitations
+
+Current limitations include:
+- synthetic sample dataset size
+- absence of real EHR integration
+- limited specialty breadth
+- no real-time streaming clinical data
+- simplified cohort logic compared to production healthcare systems
+- operational intelligence optimized for demonstration scale
+
+The system is intended as an explainable healthcare intelligence prototype rather than a production medical platform.
+
+---
+
+## Future Improvements
+
+Potential future enhancements include:
+- real EHR interoperability
+- predictive deterioration forecasting
+- vector-memory patient history retrieval
+- clinician feedback learning loops
+- multi-agent healthcare orchestration
+- real-time event streaming
+- scalable healthcare analytics pipelines
+- HIPAA-compliant deployment architecture
+- adaptive cohort intelligence
+- provider-specific operational workflows
+ 
 
 ---
 
