@@ -4,15 +4,23 @@ import { Link } from "react-router-dom";
 import hekaApi from "../api/hekaApi";
 
 function Patients() {
+
   const [patients, setPatients] = useState([]);
 
   const fetchPatients = async () => {
+
     try {
+
       const response = await hekaApi.get("/patients");
 
       setPatients(response.data);
+
     } catch (error) {
-      console.error("Patients API Error:", error);
+
+      console.error(
+        "Patients API Error:",
+        error
+      );
     }
   };
 
@@ -21,89 +29,164 @@ function Patients() {
   }, []);
 
   return (
-    <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-4xl font-bold text-gray-800">
-          HEKA Patients
+
+    <div className="min-h-screen bg-[#020617] p-8 space-y-8">
+
+      <div className="space-y-3">
+
+        <p className="uppercase tracking-[0.3em] text-xs text-blue-400">
+
+          Healthcare Evaluation & Knowledge Assistant
+
+        </p>
+
+        <h1 className="text-5xl font-black text-white">
+
+          H.E.K.A. Patient Registry
+
         </h1>
 
-        <p className="text-gray-500 mt-2">
-          Clinical Intelligence Patient Registry
+        <p className="text-slate-400 text-lg max-w-4xl leading-relaxed">
+
+          Operational clinical intelligence workspace for
+          longitudinal patient monitoring, risk prioritization,
+          conversion tracking, and explainable care coordination
+          workflows.
+
         </p>
+
       </div>
 
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+      <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
+
         <table className="w-full">
-          <thead className="bg-gray-100">
+
+          <thead className="bg-slate-950 border-b border-slate-800">
+
             <tr>
-              <th className="text-left p-4">Patient ID</th>
-              <th className="text-left p-4">Name</th>
-              <th className="text-left p-4">Risk Level</th>
-              <th className="text-left p-4">Cohorts</th>
-              <th className="text-left p-4">Conversion Status</th>
-              <th className="text-left p-4">Details</th>
+
+              <th className="text-left px-6 py-5 text-xs uppercase tracking-wider text-slate-400 font-semibold">
+                Patient ID
+              </th>
+
+              <th className="text-left px-6 py-5 text-xs uppercase tracking-wider text-slate-400 font-semibold">
+                Name
+              </th>
+
+              <th className="text-left px-6 py-5 text-xs uppercase tracking-wider text-slate-400 font-semibold">
+                Risk Level
+              </th>
+
+              <th className="text-left px-6 py-5 text-xs uppercase tracking-wider text-slate-400 font-semibold">
+                Cohorts
+              </th>
+
+              <th className="text-left px-6 py-5 text-xs uppercase tracking-wider text-slate-400 font-semibold">
+                Conversion Status
+              </th>
+
+              <th className="text-left px-6 py-5 text-xs uppercase tracking-wider text-slate-400 font-semibold">
+                Details
+              </th>
+
             </tr>
+
           </thead>
 
           <tbody>
+
             {patients.map((patient) => (
+
               <tr
                 key={patient.patient_id}
-                className="border-t"
+                className="border-t border-slate-800 hover:bg-slate-800/40 transition-all duration-200"
               >
-                <td className="p-4">
+
+                <td className="px-6 py-6 text-slate-200 font-medium">
                   {patient.patient_id}
                 </td>
 
-                <td className="p-4">
+                <td className="px-6 py-6 text-slate-100 font-semibold">
                   {patient.name}
                 </td>
 
-                <td className="p-4">
+                <td className="px-6 py-6 text-slate-200">
+
                   <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium
+                    className={`px-3 py-1 rounded-full text-xs font-semibold border
                     ${
                       patient.risk_level === "high"
-                        ? "bg-red-100 text-red-700"
+                        ? "bg-red-500/10 text-red-400 border-red-500/30"
                         : patient.risk_level === "moderate"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : "bg-green-100 text-green-700"
+                        ? "bg-yellow-500/10 text-yellow-300 border-yellow-500/30"
+                        : "bg-green-500/10 text-green-400 border-green-500/30"
                     }`}
                   >
-                    {patient.risk_level}
+
+                    {patient.risk_level?.toUpperCase()}
+
                   </span>
+
                 </td>
 
-                <td className="p-4">
-                  <div className="flex flex-wrap gap-2">
+                <td className="px-6 py-6 text-slate-200">
+
+                  <div className="flex flex-wrap gap-2 max-w-[600px]">
+
                     {patient.cohorts?.map((cohort, index) => (
+
                       <span
                         key={index}
-                        className="bg-blue-100 text-blue-700 px-2 py-1 rounded-md text-xs"
+                        className="bg-blue-500/10 text-blue-300 border border-blue-500/20 px-3 py-1 rounded-full text-xs font-medium"
                       >
-                        {cohort}
+
+                        {cohort
+                          .replaceAll("_", " ")
+                          .replace(/\b\w/g, (char) =>
+                            char.toUpperCase()
+                          )}
+
                       </span>
+
                     ))}
+
                   </div>
+
                 </td>
 
-                <td className="p-4">
-                  {patient.conversion_status}
+                <td className="px-6 py-6 text-slate-300 font-medium">
+
+                  {patient.conversion_status
+                    ?.replaceAll("_", " ")
+                    .replace(/\b\w/g, (char) =>
+                      char.toUpperCase()
+                    )}
+
                 </td>
 
-                <td className="p-4">
+                <td className="px-6 py-6">
+
                   <Link
                     to={`/patient/${patient.patient_id}`}
-                    className="text-blue-600 hover:underline"
+                    className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 font-semibold transition-colors duration-200"
                   >
-                    View Details
+
+                    Open Patient Profile →
+
                   </Link>
+
                 </td>
+
               </tr>
+
             ))}
+
           </tbody>
+
         </table>
+
       </div>
+
     </div>
   );
 }
