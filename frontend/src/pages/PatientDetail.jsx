@@ -139,8 +139,7 @@ function PatientDetail() {
     );
   }
 
-  console.log(patient);
-  console.log(semanticTimeline);
+  
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">

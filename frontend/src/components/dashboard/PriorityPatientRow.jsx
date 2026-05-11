@@ -34,7 +34,7 @@ export default function PriorityPatientRow({ patient }) {
     }
   return (
   <Link
-    to={`/patients/${patient.patient_id}`}
+    to={`/patient/${patient.patient_id}`}
     className="
       block
       px-6 py-5
