@@ -113,16 +113,16 @@ function Dashboard() {
           <div className="space-y-3">
             <div>
               <p className="text-sm uppercase tracking-[0.2em] text-slate-500">
-                Explainable Clinical Operations Platform
+                Healthcare Evaluation & Knowledge Assistant,
               </p>
 
               <h1 className="text-4xl xl:text-5xl font-bold tracking-tight mt-2">
-                HEKA Clinical Intelligence
+                H.E.K.A. - Clinical Intelligence
               </h1>
             </div>
 
             <p className="text-slate-400 max-w-3xl leading-relaxed">
-              Operational intelligence workspace for patient prioritization,
+              Operational intelligence workspace for patient prioritization, 
               longitudinal risk tracking, conversion intelligence, and
               explainable care coordination workflows.
             </p>
