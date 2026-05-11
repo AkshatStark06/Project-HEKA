@@ -39,7 +39,10 @@ app = FastAPI(
 # CORS Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # tighten later
+    allow_origins=[
+        "http://localhost:5173",
+        "https://project-heka-vert.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -159,3 +162,15 @@ def progression_test():
         "conversion": conversion,
         "llm_insights": llm_insights
     }
+
+if __name__ == "__main__":
+    import os
+    import uvicorn
+
+    port = int(os.environ.get("PORT", 8000))
+
+    uvicorn.run(
+        app,
+        host="0.0.0.0",
+        port=port
+    )
