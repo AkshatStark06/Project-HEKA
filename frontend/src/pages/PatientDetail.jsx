@@ -147,114 +147,176 @@ function PatientDetail() {
 
         {/* HEADER */}
 
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/90 shadow-xl shadow-black/20 p-8">
-          <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
 
-            <div className="space-y-4">
+          {/* LEFT MAIN HEADER */}
+
+          <div className="xl:col-span-2 rounded-2xl border border-slate-800 bg-slate-900/90 shadow-xl shadow-black/20 px-8 pt-8 pb-5">
+
+            <div className="space-y-5">
+
+              {/* Patient Identity */}
+
               <div>
                 <p className="text-sm uppercase tracking-[0.2em] text-slate-500">
                   Explainable Patient Intelligence
                 </p>
+
                 <h1 className="text-4xl xl:text-5xl font-bold tracking-tight mt-2">
                   {patient.demographics?.name}
                 </h1>
               </div>
 
-              <div className="flex flex-wrap items-center gap-4 text-slate-400">
+              {/* Patient Meta */}
+
+              <div className="flex flex-wrap items-center gap-4 text-slate-300">
+
                 <div className="rounded-xl bg-slate-800 px-4 py-2 border border-slate-700">
                   Patient ID:
-                  <span className="ml-2 text-white font-medium">
+                  <span className="ml-2 text-white font-semibold">
                     {patient.patient_id}
                   </span>
                 </div>
+
                 <div className="rounded-xl bg-slate-800 px-4 py-2 border border-slate-700">
                   {patient.demographics?.age} years
                 </div>
+
                 <div className="rounded-xl bg-slate-800 px-4 py-2 border border-slate-700">
                   {patient.demographics?.gender}
                 </div>
-              </div>
-            </div>
 
-            <div className="flex flex-col items-start xl:items-end gap-4">
+              </div>
+
+              {/* Progression Status */}
+
               <div
                 className={`
-                  inline-flex items-center rounded-full
-                  px-5 py-2 text-sm font-semibold border
-                  ${
-                    patient.risk_analysis?.risk_level === "high"
-                      ? "border-red-500/30 bg-red-500/10 text-red-300"
-                      : patient.risk_analysis?.risk_level === "moderate"
-                      ? "border-yellow-500/30 bg-yellow-500/10 text-yellow-300"
-                      : "border-green-500/30 bg-green-500/10 text-green-300"
-                  }
+                  rounded-2xl border px-6 py-5
+                  ${progressionStatus.color}
                 `}
               >
-                {patient.risk_analysis?.risk_level} Risk
+                <div className="flex items-center justify-between">
+
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.2em] opacity-70">
+                      Clinical Progression Status
+                    </p>
+
+                    <h2 className="text-2xl font-bold mt-2">
+                      {progressionStatus.label}
+                    </h2>
+                  </div>
+
+                  <div className="text-right text-sm opacity-80">
+                    Longitudinal clinical trajectory
+                  </div>
+
+                </div>
+              </div>
+              <PatientIntelligenceRail patient={patient} />
+
+              {/* Intelligence Status */}
+
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-6">
+
+              <div className="flex items-center justify-between">
+
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                    Intelligence Status
+                  </p>
+
+                  <h3 className="text-lg font-semibold text-white mt-3 leading-snug">
+                    Active Longitudinal Clinical Monitoring
+                  </h3>
+                </div>
+
+                <div
+                  className={`
+                    inline-flex items-center rounded-full
+                    px-4 py-2 text-sm font-semibold border
+                    ${
+                      patient.risk_analysis?.risk_level === "high"
+                        ? "border-red-500/30 bg-red-500/10 text-red-300"
+                        : patient.risk_analysis?.risk_level === "moderate"
+                        ? "border-yellow-500/30 bg-yellow-500/10 text-yellow-300"
+                        : "border-green-500/30 bg-green-500/10 text-green-300"
+                    }
+                  `}
+                >
+                  {patient.risk_analysis?.risk_level} Risk
+                </div>
+
               </div>
 
-              <div className="text-right">
-                <p className="text-sm uppercase tracking-wide text-slate-500">
-                  Intelligence Status
-                </p>
-                <p className="text-lg font-semibold text-white mt-1">
-                  Active Longitudinal Clinical Monitoring
-                </p>
-              </div>
+            </div>
+                
             </div>
 
           </div>
-        </div>
 
-        <PatientIntelligenceRail patient={patient} />
-        <div
-          className={`
-            rounded-2xl border px-6 py-5
-            ${progressionStatus.color}
-          `}
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] opacity-70">
-                Clinical Progression Status
-              </p>
+          {/* RIGHT INTELLIGENCE PANEL */}
 
-              <h2 className="text-2xl font-bold mt-2">
-                {progressionStatus.label}
-              </h2>
-            </div>
+          <div className="space-y-4">
 
-            <div className="text-right text-sm opacity-80">
-              Longitudinal clinical trajectory
-            </div>
+            {/* ── OPERATIONAL ESCALATIONS ─────────────────────────────────── */}
+
+            <SectionCard title="Operational Escalations">
+              <div className="space-y-4">
+
+                {hasConversionBarriers && (
+                  <EscalationBanner
+                    title="Care Continuity Risk"
+                    description="Operational intelligence detected barriers affecting procedure conversion."
+                    type="warning"
+                  />
+                )}
+                {hasCareGaps && (
+                  <EscalationBanner
+                    title="Care Gap Escalation"
+                    description="Clinical workflow gaps detected requiring follow-up attention."
+                    type="danger"
+                  />
+                )}
+                {hasProcedureDelays && (
+                  <EscalationBanner
+                    title="Delayed Procedural Care"
+                    description="Delayed progression detected in procedural care pathway."
+                    type="warning"
+                  />
+                )}
+
+                {/* AI Escalation Reasoning */}
+                <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4">
+                  <h3 className="text-red-200 font-semibold mb-2">
+                    Clinical Escalation Assessment
+                  </h3>
+                  {loadingAIInsights ? (
+                    <p className="text-slate-400 text-sm leading-relaxed animate-pulse">
+                      Generating escalation intelligence...
+                    </p>
+                  ) : aiInsights ? (
+                    <p className="text-slate-300 text-sm leading-relaxed">
+                      {aiInsights.escalation_reasoning}
+                    </p>
+                  ) : (
+                    <p className="text-slate-500 text-sm leading-relaxed">
+                      Use Generate AI Insights to load escalation reasoning.
+                    </p>
+                  )}
+                </div>
+
+              </div>
+            </SectionCard>
+
+            
+
+            
+
           </div>
-        </div>
 
-        {/* ESCALATION BANNERS */}
-
-        <div className="space-y-4">
-          {hasConversionBarriers && (
-            <EscalationBanner
-              title="Conversion Risk Detected"
-              description="Operational intelligence detected barriers affecting procedure conversion."
-              level="high"
-            />
-          )}
-          {hasCareGaps && (
-            <EscalationBanner
-              title="Care Gap Escalation"
-              description="Clinical workflow gaps detected requiring follow-up attention."
-              level="critical"
-            />
-          )}
-          {hasProcedureDelays && (
-            <EscalationBanner
-              title="Procedure Delay Detected"
-              description="Delayed progression detected in procedural care pathway."
-              level="moderate"
-            />
-          )}
-        </div>
+        </div>       
 
         {/* LLM INSIGHTS GRID */}
 
@@ -558,55 +620,9 @@ function PatientDetail() {
 
           <div className="space-y-6">
 
-            {/* ── OPERATIONAL ESCALATIONS ─────────────────────────────────── */}
+            
 
-            <SectionCard title="Operational Escalations">
-              <div className="space-y-4">
 
-                {hasConversionBarriers && (
-                  <EscalationBanner
-                    title="Care Continuity Risk"
-                    description="Operational intelligence detected barriers affecting procedure conversion."
-                    type="warning"
-                  />
-                )}
-                {hasCareGaps && (
-                  <EscalationBanner
-                    title="Care Gap Escalation"
-                    description="Clinical workflow gaps detected requiring follow-up attention."
-                    type="danger"
-                  />
-                )}
-                {hasProcedureDelays && (
-                  <EscalationBanner
-                    title="Delayed Procedural Care"
-                    description="Delayed progression detected in procedural care pathway."
-                    type="warning"
-                  />
-                )}
-
-                {/* AI Escalation Reasoning */}
-                <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4">
-                  <h3 className="text-red-200 font-semibold mb-2">
-                    Clinical Escalation Assessment
-                  </h3>
-                  {loadingAIInsights ? (
-                    <p className="text-slate-400 text-sm leading-relaxed animate-pulse">
-                      Generating escalation intelligence...
-                    </p>
-                  ) : aiInsights ? (
-                    <p className="text-slate-300 text-sm leading-relaxed">
-                      {aiInsights.escalation_reasoning}
-                    </p>
-                  ) : (
-                    <p className="text-slate-500 text-sm leading-relaxed">
-                      Use Generate AI Insights to load escalation reasoning.
-                    </p>
-                  )}
-                </div>
-
-              </div>
-            </SectionCard>
 
             {/* ── CONVERSION INTELLIGENCE ─────────────────────────────────── */}
 
@@ -685,28 +701,86 @@ function PatientDetail() {
         {/* CLINICAL EXPLAINABILITY */}
 
         <SectionCard title="Clinical Explainability">
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-3">Clinical Flags</h3>
-            {patient.progression_analysis?.clinical_flags?.map((flag, index) => (
-              <EvidenceCard key={index} item={flag} />
-            ))}
+
+          <div className="space-y-10">
+
+            {/* Clinical Flags */}
+
+            <div>
+
+              <h3 className="text-lg font-semibold mb-4">
+                Clinical Flags
+              </h3>
+
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+
+                {patient.progression_analysis?.clinical_flags?.map(
+                  (flag, index) => (
+
+                    <EvidenceCard
+                      key={index}
+                      item={flag}
+                    />
+
+                  )
+                )}
+
+              </div>
+
+            </div>
+
+            {/* Care Gaps */}
+
+            <div>
+
+              <h3 className="text-lg font-semibold mb-4">
+                Care Gaps
+              </h3>
+
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+
+                {patient.progression_analysis?.care_gaps?.map(
+                  (gap, index) => (
+
+                    <EvidenceCard
+                      key={index}
+                      item={gap}
+                    />
+
+                  )
+                )}
+
+              </div>
+
+            </div>
+
+            {/* Procedure Delays */}
+
+            <div>
+
+              <h3 className="text-lg font-semibold mb-4">
+                Procedure Delays
+              </h3>
+
+              <div className="grid grid-cols-1 gap-4">
+
+                {patient.progression_analysis?.procedure_delays?.map(
+                  (delay, index) => (
+
+                    <EvidenceCard
+                      key={index}
+                      item={delay}
+                    />
+
+                  )
+                )}
+
+              </div>
+
+            </div>
+
           </div>
 
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-3">Care Gaps</h3>
-            {patient.progression_analysis?.care_gaps?.map((gap, index) => (
-              <EvidenceCard key={index} item={gap} />
-            ))}
-          </div>
-
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-3">Procedure Delays</h3>
-            {patient.progression_analysis?.procedure_delays?.map(
-              (delay, index) => (
-                <EvidenceCard key={index} item={delay} />
-              )
-            )}
-          </div>
         </SectionCard>
 
         <PatientRiskTrendChart timeline={patient.timeline || []} />
